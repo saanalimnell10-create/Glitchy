@@ -1,54 +1,45 @@
-import os
-import asyncio
-import traceback
 import discord
 from discord.ext import commands
-from keep_alive import keep_alive
+import os
+import asyncio
+from cogs.prefix import get_prefix
 
-# Määritetään intentit
+# Määritellään botin oikeudet (Intents)
 intents = discord.Intents.default()
-intents.message_content = True
-intents.members = True
+intents.message_content = True  # Vaaditaan, että botti näkee viestit
+intents.guilds = True
 
-# Funktio dynaamiselle prefixille (tuki botin omalle maininnalle + oletusmerkille "!
-def get_prefix(bot, message):
-    # Tähän voidaan myöhemmin liittää tietokannan haku serverikohtaiselle prefixille
-    base_prefixes = ["!", "?"] # Voit lisätä tähän haluamasi prefixit, esim. "!" ja "?"
-    return commands.when_mentioned_or(*base_prefixes)(bot, message)
-
-# Luodaan botti käyttäen get_prefix-funktiota
-bot = commands.Bot(command_prefix=get_prefix, intents=intents, help_command=None)
+# Luodaan botti käyttäen dynaamista prefixiä
+bot = commands.Bot(command_prefix=get_prefix, intents=intents)
 
 @bot.event
 async def on_ready():
-    print(f"Logged in as {bot.user.name} ({bot.user.id})")
-    print("> [SYSTEM_OVERLOAD]: Glitchy core online. ⚡")
+    print(f"-----------------------------------")
+    print(f"> Botti kirjautunut sisään: {bot.user}")
+    print(f"> ID: {bot.user.id}")
+    print(f"> Kyber-noir terminaali valmiina.")
+    print(f"-----------------------------------")
 
-async def load_extensions():
-    if not os.path.exists("./cogs"):
-        print("⚠️ Varoitus: 'cogs'-kansiota ei löytynyt vielä!")
-        return
-
+    # Ladataan kaikki cogs-kansiossa olevat moduulit automaattisesti
     for filename in os.listdir("./cogs"):
         if filename.endswith(".py"):
             cog_name = filename[:-3]
             try:
                 await bot.load_extension(f"cogs.{cog_name}")
-                print(f"✅ Ladattu cog: {filename}")
+                print(f"✅ Ladattu cog: {cog_name}")
             except Exception as e:
-                print(f"❌ Virhe ladattaessa cogia {filename}:")
-                traceback.print_exc()
+                print(f"❌ Virhe ladatessa cogia {cog_name}: {e}")
 
+# Käynnistetään botti ympäristömuuttujasta löytyvällä tokenilla
+# Varmista, että Renderissä tai .env-tiedostossa on DISCORD_TOKEN
 async def main():
+    token = os.getenv("DISCORD_TOKEN")
+    if not token:
+        print("❌ Virhe: DISCORD_TOKEN-ympäristömuuttuja puuttuu!")
+        return
+    
     async with bot:
-        await load_extensions()
-        TOKEN = os.getenv("DISCORD_TOKEN")
-        
-        if TOKEN:
-            await bot.start(TOKEN)
-        else:
-            print("❌ Virhe: DISCORD_TOKENia ei löytynyt ympäristömuuttujista!")
+        await bot.start(token)
 
 if __name__ == "__main__":
-    keep_alive()
     asyncio.run(main())
