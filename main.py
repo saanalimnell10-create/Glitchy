@@ -10,8 +10,14 @@ intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 
-# Luodaan botti perusprefiksillä "!" ja poistetaan oletushelp käytöstä
-bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
+# Funktio dynaamiselle prefixille (tuki botin omalle maininnalle + oletusmerkille "!
+def get_prefix(bot, message):
+    # Tähän voidaan myöhemmin liittää tietokannan haku serverikohtaiselle prefixille
+    base_prefixes = ["!", "?"] # Voit lisätä tähän haluamasi prefixit, esim. "!" ja "?"
+    return commands.when_mentioned_or(*base_prefixes)(bot, message)
+
+# Luodaan botti käyttäen get_prefix-funktiota
+bot = commands.Bot(command_prefix=get_prefix, intents=intents, help_command=None)
 
 @bot.event
 async def on_ready():
@@ -19,7 +25,6 @@ async def on_ready():
     print("> [SYSTEM_OVERLOAD]: Glitchy core online. ⚡")
 
 async def load_extensions():
-    """Lataa automaattisesti cogs-kansion alaiset tiedostot, jos se on olemassa."""
     if not os.path.exists("./cogs"):
         print("⚠️ Varoitus: 'cogs'-kansiota ei löytynyt vielä!")
         return
