@@ -5,75 +5,53 @@ class HelpDropdown(discord.ui.Select):
     def __init__(self):
         options = [
             discord.SelectOption(
-                label="All Terminal Commands",
-                description="View all available commands for Glitchy.",
+                label="Terminal Commands",
+                description="View all available commands and their functions.",
                 emoji="⚡",
-                value="all_commands"
+                value="commands"
             ),
             discord.SelectOption(
-                label="System Status & Node",
-                description="Check uptime, latency, and connection metrics.",
-                emoji="🟢",
-                value="system_status"
-            ),
-            discord.SelectOption(
-                label="Security Protocols",
-                description="View node encryption and cyberpunk security status.",
-                emoji="🔒",
-                value="security"
+                label="About Bot",
+                description="Quick information about Glitchy.",
+                emoji="🟣",
+                value="about"
             )
         ]
-        super().__init__(placeholder="> Select a system database...", min_values=1, max_values=1, options=options)
+        super().__init__(placeholder="✨ Select a category to explore commands...", min_values=1, max_values=1, options=options)
 
     async def callback(self, interaction: discord.Interaction):
-        # Käytetään syvää purppuraa / violettia sävyä (Discord color: purple tai custom hex)
-        purple_color = discord.Color.from_rgb(138, 43, 226) # BlueViolet
+        aesthetic_purple = discord.Color.from_rgb(147, 112, 219)
 
-        if self.values[0] == "all_commands":
+        if self.values[0] == "commands":
             embed = discord.Embed(
-                title="> [SYSTEM_OVERLOAD // ALL_COMMANDS]",
-                description="Accessing core mainframe... Here is the complete command registry:",
-                color=purple_color
+                title="⚡ Glitchy Command Center",
+                description="Here are the active commands you can use:",
+                color=aesthetic_purple
             )
             embed.add_field(
-                name="⚡ `!help` / `?help`",
-                value="Opens this interactive terminal menu.",
+                name="`!help` / `?help`",
+                value="Opens this interactive help menu.",
                 inline=False
             )
             embed.add_field(
-                name="🟢 `!status` / `!sys`",
-                value="Displays node uptime, latency, and server metrics.",
+                name="`!status` / `!sys`",
+                value="Displays the system status.",
                 inline=False
             )
+            embed.set_thumbnail(url=interaction.client.user.avatar.url if interaction.client.user.avatar else None)
             
-        elif self.values[0] == "system_status":
+        elif self.values[0] == "about":
             embed = discord.Embed(
-                title="> [SYSTEM_OVERLOAD // NODE_METRICS]",
-                description="Diagnostic data retrieved from current hosting node:",
-                color=purple_color
+                title="🟣 About Glitchy",
+                description="A purplish, terminal-themed aesthetic bot.",
+                color=aesthetic_purple
             )
             embed.add_field(
-                name="Hosting Route",
-                value="Routing securely through Render cloud infrastructure.",
+                name="Status",
+                value="Online and ready.",
                 inline=False
             )
-            embed.add_field(
-                name="Uptime Monitor",
-                value="Active 24/7 via automated heartbeat signals.",
-                inline=False
-            )
-            
-        elif self.values[0] == "security":
-            embed = discord.Embed(
-                title="> [SYSTEM_OVERLOAD // SECURITY_GRID]",
-                description="Active cyber-noir security barriers:",
-                color=purple_color
-            )
-            embed.add_field(
-                name="Encryption Layer",
-                value="Terminal Stream v1.0 — **Secure**",
-                inline=False
-            )
+            embed.set_thumbnail(url=interaction.client.user.avatar.url if interaction.client.user.avatar else None)
 
         await interaction.response.edit_message(embed=embed)
 
@@ -88,15 +66,16 @@ class Help(commands.Cog):
 
     @commands.command(name="help", aliases=["commands", "glitchy"])
     async def help_menu(self, ctx):
-        """Displays Glitchy's purplish interactive terminal help menu."""
-        
-        # Päävalikon embed purppuralla teemalla
         embed = discord.Embed(
-            title="> [SYSTEM_OVERLOAD // GLITCHY_CORE]",
-            description="Connection established. Select a database from the dropdown menu below to view system parameters and commands.",
-            color=discord.Color.from_rgb(138, 43, 226)
+            title="🌸 Glitchy • Help Center",
+            description=f"Hello {ctx.author.mention}! Welcome to the interactive help command center.\n\n✨ Please select a category from the dropdown menu below to view its available commands.",
+            color=discord.Color.from_rgb(147, 112, 219)
         )
-        embed.set_footer(text="System Overload Node v1.0 • Glitchy is watching.")
+        
+        if self.bot.user.avatar:
+            embed.set_thumbnail(url=self.bot.user.avatar.url)
+            
+        embed.set_footer(text="Glitchy • System Overload")
         
         view = HelpView()
         await ctx.send(embed=embed, view=view)
