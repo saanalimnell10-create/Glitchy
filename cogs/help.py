@@ -1,66 +1,66 @@
 import discord
 from discord.ext import commands
 
-class HelpDropdown(discord.ui.Select):
+class GlitchHelpDropdown(discord.ui.Select):
     def __init__(self):
         options = [
             discord.SelectOption(
-                label="System & Setup",
-                description="Core system commands and administrative tools",
+                label="SYSTEM PROTOCOLS",
+                description="Core network commands and automated nodes",
                 emoji="⚙️"
             ),
             discord.SelectOption(
-                label="Surveillance & Security",
-                description="Channel isolation and network security logs",
+                label="SURVEILLANCE & SECURITY",
+                description="Channel isolation and camera feeds",
                 emoji="👁️"
             ),
             discord.SelectOption(
-                label="Glitch Terminal",
-                description="Network flickers, crash simulations, and data corruption",
+                label="GLITCH TERMINAL",
+                description="Anomalies, crashes, and text corruption",
                 emoji="⚡"
             )
         ]
-        super().__init__(placeholder="Select a system category...", min_values=1, max_values=1, options=options)
+        super().__init__(placeholder="[SELECT TERMINAL SUBSYSTEM...]", min_values=1, max_values=1, options=options)
 
     async def callback(self, interaction: discord.Interaction):
-        if self.values[0] == "System & Setup":
+        if self.values[0] == "SYSTEM PROTOCOLS":
             embed = discord.Embed(
-                title="⚙️ [SYSTEM / SETUP DIRECTORY]",
-                description="Administrative subroutines and system protocols:",
+                title="⚙️ // 5̷Y̷5̷T̷E̷M̷ ̷P̷R̷O̷T̷O̷C̷O̷L̷S̷",
+                description="```fix\n[ACCESS GRANTED: CORE SUBSYSTEMS]\n```",
                 color=discord.Color.dark_embed()
             )
-            embed.add_field(name="`::setup`", value="Initializes system & surveillance nodes *(Owner)*", inline=False)
-            embed.add_field(name="`::welcome`", value="Automated anomaly greeting protocol", inline=False)
-            embed.add_field(name="`::goodbye`", value="Automated departure log protocol", inline=False)
-            embed.add_field(name="`::args`", value="Checks active system errors *(Owner)*", inline=False)
+            embed.add_field(name="`::setup`", value="Initializes system & surveillance nodes", inline=False)
+            embed.add_field(name="`::welcome`", value="Broadcasts an automated anomaly greeting", inline=False)
+            embed.add_field(name="`::goodbye`", value="Broadcasts a grim departure log", inline=False)
+            embed.add_field(name="`::args`", value="Checks active system errors and memory flags", inline=False)
 
-        elif self.values[0] == "Surveillance & Security":
+        elif self.values[0] == "SURVEILLANCE & SECURITY":
             embed = discord.Embed(
-                title="👁️ [SURVEILLANCE & SECURITY DIRECTORY]",
-                description="Security nodes and monitoring subroutines:",
+                title="👁️ // 5̷U̷R̷V̷E̷I̷L̷L̷A̷N̷C̷E̷ ̷L̷O̷G̷S̷",
+                description="```fix\n[ACCESS GRANTED: SECURITY NODES]\n```",
                 color=discord.Color.dark_embed()
             )
-            embed.add_field(name="`::isolate`", value="Severs a channel from the network *(Mod)*", inline=False)
-            embed.add_field(name="`::surveillance`", value="Accesses encrypted camera logs *(Mod)*", inline=False)
+            embed.add_field(name="`::isolate`", value="Severs the current channel from the network loop", inline=False)
+            embed.add_field(name="`::surveillance`", value="Accesses encrypted camera feeds and logs", inline=False)
 
-        elif self.values[0] == "Glitch Terminal":
+        elif self.values[0] == "GLITCH TERMINAL":
             embed = discord.Embed(
-                title="⚡ [GLITCH TERMINAL DIRECTORY]",
-                description="Anomalous network modules and corruption tools:",
+                title="⚡ // G̷L̷I̷T̷C̷H̷ ̷T̷E̷R̷M̷I̷N̷A̷L̷",
+                description="```fix\n[WARNING: ANOMALOUS MODULES ACTIVE]\n```",
                 color=discord.Color.dark_embed()
             )
-            embed.add_field(name="`::glitch`", value="Triggers a random network flicker & data packet", inline=False)
-            embed.add_field(name="`::crash`", value="Simulates a core system collapse *(Mod)*", inline=False)
-            embed.add_field(name="`::archive`", value="Retrieves a half-destroyed network log", inline=False)
-            embed.add_field(name="`::corrupt <text>`", value="Corrupts string input into glitch text", inline=False)
+            embed.add_field(name="`::glitch`", value="Triggers a random network flicker and data packet", inline=False)
+            embed.add_field(name="`::crash`", value="Simulates a sudden core system collapse", inline=False)
+            embed.add_field(name="`::archive`", value="Retrieves a half-destroyed network log or lore", inline=False)
+            embed.add_field(name="`::corrupt <text>`", value="Corrupts string input into glitch text output", inline=False)
 
-        embed.set_footer(text="SYSTEM OVERLOAD v2.0 // Interactive Terminal")
+        embed.set_footer(text="⚠️ SYSTEM OVERLOAD // THEY ARE WATCHING THROUGH THE SCREENS.")
         await interaction.response.edit_message(embed=embed, view=self.view)
 
-class HelpView(discord.ui.View):
+class GlitchHelpView(discord.ui.View):
     def __init__(self):
         super().__init__(timeout=180)
-        self.add_item(HelpDropdown())
+        self.add_item(GlitchHelpDropdown())
 
 class DropdownHelp(commands.Cog):
     def __init__(self, bot):
@@ -69,14 +69,20 @@ class DropdownHelp(commands.Cog):
 
     @commands.command(name="help", aliases=["terminal", "commands", "menu"])
     async def help_command(self, ctx):
-        """Displays the interactive terminal dropdown menu."""
+        """Displays the glitchy interactive terminal dropdown menu."""
         embed = discord.Embed(
-            title="> SYSTEM OVERLOAD // INTERACTIVE TERMINAL",
-            description="Select a module from the dropdown menu below to access subroutines:",
+            title="> █▒▓ SYSTEM OVERLOAD // MAIN TERMINAL ▓▒█",
+            description=(
+                "```ini\n"
+                "[STATUS: UNSTABLE]\n"
+                "Connection established via node ::\n"
+                "Select a target subsystem from the dropdown below...\n"
+                "```"
+            ),
             color=discord.Color.dark_embed()
         )
-        embed.set_footer(text="SYSTEM OVERLOAD v2.0 // They are watching.")
-        view = HelpView()
+        embed.set_footer(text="⚠️ SYSTEM OVERLOAD // PREFIX: ::")
+        view = GlitchHelpView()
         await ctx.send(embed=embed, view=view)
 
 async def setup(bot):
