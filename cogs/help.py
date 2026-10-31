@@ -23,11 +23,18 @@ class GlitchHelpDropdown(discord.ui.Select):
         super().__init__(placeholder="[SELECT TERMINAL SUBSYSTEM...]", min_values=1, max_values=1, options=options)
 
     async def callback(self, interaction: discord.Interaction):
+        # Custom Glitchtrap neon purple-magenta color (0xB026FF)
+        glitch_color = discord.Color.from_rgb(176, 38, 255)
+
         if self.values[0] == "SYSTEM PROTOCOLS":
             embed = discord.Embed(
-                title="⚙️ // 5̷Y̷5̷T̷E̷M̷ ̷P̷R̷O̷T̷O̷C̷O̷L̷S̷",
-                description="```fix\n[ACCESS GRANTED: CORE SUBSYSTEMS]\n```",
-                color=discord.Color.dark_embed()
+                title="⚙️ // SYSTEM PROTOCOLS",
+                description=(
+                    "```ansi\n"
+                    "\u001b[35m[ACCESS GRANTED: CORE SUBSYSTEMS]\u001b[0m\n"
+                    "```"
+                ),
+                color=glitch_color
             )
             embed.add_field(name="`::setup`", value="Initializes system & surveillance nodes", inline=False)
             embed.add_field(name="`::welcome`", value="Broadcasts an automated anomaly greeting", inline=False)
@@ -36,25 +43,33 @@ class GlitchHelpDropdown(discord.ui.Select):
 
         elif self.values[0] == "SURVEILLANCE & SECURITY":
             embed = discord.Embed(
-                title="👁️ // 5̷U̷R̷V̷E̷I̷L̷L̷A̷N̷C̷E̷ ̷L̷O̷G̷S̷",
-                description="```fix\n[ACCESS GRANTED: SECURITY NODES]\n```",
-                color=discord.Color.dark_embed()
+                title="👁️ // SURVEILLANCE LOGS",
+                description=(
+                    "```ansi\n"
+                    "\u001b[35m[ACCESS GRANTED: SECURITY NODES]\u001b[0m\n"
+                    "```"
+                ),
+                color=glitch_color
             )
             embed.add_field(name="`::isolate`", value="Severs the current channel from the network loop", inline=False)
             embed.add_field(name="`::surveillance`", value="Accesses encrypted camera feeds and logs", inline=False)
 
         elif self.values[0] == "GLITCH TERMINAL":
             embed = discord.Embed(
-                title="⚡ // G̷L̷I̷T̷C̷H̷ ̷T̷E̷R̷M̷I̷N̷A̷L̷",
-                description="```fix\n[WARNING: ANOMALOUS MODULES ACTIVE]\n```",
-                color=discord.Color.dark_embed()
+                title="⚡ // GLITCH TERMINAL",
+                description=(
+                    "```ansi\n"
+                    "\u001b[31m[WARNING: ANOMALOUS MODULES ACTIVE]\u001b[0m\n"
+                    "```"
+                ),
+                color=glitch_color
             )
             embed.add_field(name="`::glitch`", value="Triggers a random network flicker and data packet", inline=False)
             embed.add_field(name="`::crash`", value="Simulates a sudden core system collapse", inline=False)
             embed.add_field(name="`::archive`", value="Retrieves a half-destroyed network log or lore", inline=False)
             embed.add_field(name="`::corrupt <text>`", value="Corrupts string input into glitch text output", inline=False)
 
-        embed.set_footer(text="⚠️ SYSTEM OVERLOAD // THEY ARE WATCHING THROUGH THE SCREENS.")
+        embed.set_footer(text="SYSTEM OVERLOAD // THEY ARE WATCHING THROUGH THE SCREENS.")
         await interaction.response.edit_message(embed=embed, view=self.view)
 
 class GlitchHelpView(discord.ui.View):
@@ -69,19 +84,21 @@ class DropdownHelp(commands.Cog):
 
     @commands.command(name="help", aliases=["terminal", "commands", "menu"])
     async def help_command(self, ctx):
-        """Displays the glitchy interactive terminal dropdown menu."""
+        """Displays the neon-purple glitch interactive terminal dropdown menu."""
+        glitch_color = discord.Color.from_rgb(176, 38, 255)
+        
         embed = discord.Embed(
-            title="> █▒▓ SYSTEM OVERLOAD // MAIN TERMINAL ▓▒█",
+            title="> SYSTEM OVERLOAD // MAIN TERMINAL",
             description=(
-                "```ini\n"
-                "[STATUS: UNSTABLE]\n"
-                "Connection established via node ::\n"
+                "```ansi\n"
+                "\u001b[35m[STATUS: UNSTABLE]\u001b[0m\n"
+                "Connection established via node \u001b[33m::\u001b[0m\n"
                 "Select a target subsystem from the dropdown below...\n"
                 "```"
             ),
-            color=discord.Color.dark_embed()
+            color=glitch_color
         )
-        embed.set_footer(text="⚠️ SYSTEM OVERLOAD // PREFIX: ::")
+        embed.set_footer(text="SYSTEM OVERLOAD // PREFIX: ::")
         view = GlitchHelpView()
         await ctx.send(embed=embed, view=view)
 
