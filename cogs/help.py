@@ -23,7 +23,6 @@ class GlitchHelpDropdown(discord.ui.Select):
         super().__init__(placeholder="[SELECT TERMINAL SUBSYSTEM...]", min_values=1, max_values=1, options=options)
 
     async def callback(self, interaction: discord.Interaction):
-        # Custom Glitchtrap neon purple-magenta color (0xB026FF)
         glitch_color = discord.Color.from_rgb(176, 38, 255)
 
         if self.values[0] == "SYSTEM PROTOCOLS":
@@ -43,7 +42,7 @@ class GlitchHelpDropdown(discord.ui.Select):
 
         elif self.values[0] == "SURVEILLANCE & SECURITY":
             embed = discord.Embed(
-                title="👁️ // SURVEILLANCE LOGS",
+                title="👁️ // SURVEILLANCE & SECURITY",
                 description=(
                     "```ansi\n"
                     "\u001b[35m[ACCESS GRANTED: SECURITY NODES]\u001b[0m\n"
@@ -52,6 +51,7 @@ class GlitchHelpDropdown(discord.ui.Select):
                 color=glitch_color
             )
             embed.add_field(name="`::isolate`", value="Severs the current channel from the network loop", inline=False)
+            embed.add_field(name="`::unisolate`", value="Restores network connection to the channel", inline=False)
             embed.add_field(name="`::surveillance`", value="Accesses encrypted camera feeds and logs", inline=False)
 
         elif self.values[0] == "GLITCH TERMINAL":
