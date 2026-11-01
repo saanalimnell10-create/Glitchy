@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+import asyncio
 
 class ModerationCog(commands.Cog):
     def __init__(self, bot):
@@ -42,7 +43,7 @@ class ModerationCog(commands.Cog):
         await ctx.channel.purge(limit=amount + 1)
         
         msg = await ctx.send(f"`[SYSTEM CLEANUP]` Purged {amount} corrupted data packets from the buffer.")
-        await discord.utils.sleep_until(discord.utils.utcnow() + discord.timedelta(seconds=4))
+        await asyncio.sleep(4)
         try:
             await msg.delete()
         except:
