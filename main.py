@@ -34,7 +34,7 @@ async def on_ready():
     print("-----------------------------------")
     print(f"> Logged in as: {bot.user}")
     print(f"> ID: {bot.user.id}")
-    print(f"> Cyber-noir terminal online. Prefix: ::")
+    print(f"> Cyber-noir terminal online. Prefix: :: | Slash: /")
     print("-----------------------------------")
 
     # Automatically load cogs from the ./cogs directory
@@ -46,6 +46,13 @@ async def on_ready():
                 print(f"✅ Loaded cog: {cog_name}")
             except Exception as e:
                 print(f"❌ Failed to load cog {cog_name}: {e}")
+
+    # Synchronize Slash commands with Discord
+    try:
+        synced = await bot.tree.sync()
+        print(f"✅ Synced {len(synced)} slash command(s).")
+    except Exception as e:
+        print(f"❌ Failed to sync slash commands: {e}")
 
 async def main():
     token = os.getenv("DISCORD_TOKEN")
